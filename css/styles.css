@@ -1,0 +1,278 @@
+:root {
+  --bg: #f3f2ef;
+  --column: #e8e6e1;
+  --card: #ffffff;
+  --text: #1f1f1f;
+  --muted: #6d6a64;
+  --border: #d9d6cf;
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --alta: #dc2626;
+  --media: #d97706;
+  --baja: #16a34a;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #141414;
+    --column: #1e1e1e;
+    --card: #2a2a2a;
+    --text: #ececec;
+    --muted: #a3a3a3;
+    --border: #3a3a3a;
+    --primary: #818cf8;
+    --primary-hover: #a5b4fc;
+    --alta: #f87171;
+    --media: #fbbf24;
+    --baja: #4ade80;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  padding: 24px 16px;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}
+
+input,
+select,
+button {
+  font: inherit;
+  color: inherit;
+}
+
+input,
+select {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 9px 12px;
+}
+
+input:focus,
+select:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: -1px;
+}
+
+button {
+  cursor: pointer;
+}
+
+.topbar,
+.task-form,
+.board {
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.topbar input {
+  width: 240px;
+}
+
+/* formulario */
+.task-form {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.task-form input {
+  flex: 1;
+  min-width: 0;
+}
+
+.task-form button {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 9px 18px;
+  font-weight: 600;
+}
+
+.task-form button:hover {
+  background: var(--primary-hover);
+}
+
+/* tablero */
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.column {
+  background: var(--column);
+  border-radius: 12px;
+  padding: 14px;
+  border: 2px dashed transparent;
+  transition: border-color 0.15s;
+}
+
+.column.drag-over {
+  border-color: var(--primary);
+}
+
+.column h2 {
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.count {
+  background: var(--card);
+  color: var(--muted);
+  font-size: 0.8rem;
+  border-radius: 999px;
+  padding: 1px 9px;
+}
+
+.task-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 60px;
+}
+
+.empty {
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 18px 0;
+}
+
+/* tarjeta de tarea */
+.task {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--media);
+  border-radius: 8px;
+  padding: 10px 12px;
+  cursor: grab;
+}
+
+.task.priority-alta {
+  border-left-color: var(--alta);
+}
+
+.task.priority-baja {
+  border-left-color: var(--baja);
+}
+
+.task.dragging {
+  opacity: 0.4;
+}
+
+.task-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.priority {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+  color: var(--media);
+}
+
+.priority-alta .priority {
+  color: var(--alta);
+}
+
+.priority-baja .priority {
+  color: var(--baja);
+}
+
+.task-title {
+  margin: 6px 0 8px;
+  overflow-wrap: anywhere;
+  border-radius: 4px;
+}
+
+.task-title[contenteditable='true'] {
+  outline: 2px solid var(--primary);
+  padding: 2px 4px;
+  cursor: text;
+}
+
+.task-top button,
+.task-moves button {
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  color: var(--muted);
+  padding: 2px 8px;
+}
+
+.task-top button:hover,
+.task-moves button:hover:not(:disabled) {
+  border-color: var(--border);
+  color: var(--text);
+}
+
+.task-moves {
+  display: flex;
+  justify-content: space-between;
+}
+
+.task-moves button:disabled {
+  visibility: hidden;
+}
+
+/* en celular las columnas van una debajo de otra */
+@media (max-width: 760px) {
+  .board {
+    grid-template-columns: 1fr;
+  }
+
+  .topbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .topbar input {
+    width: 100%;
+  }
+
+  .task-form {
+    flex-wrap: wrap;
+  }
+
+  .task-form input {
+    flex-basis: 100%;
+  }
+
+  .task-form button {
+    flex: 1;
+  }
+}
